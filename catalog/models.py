@@ -10,7 +10,7 @@ class Category(models.Model):
 
     def __str__(self):
         # Метод для отображения объектов класса Category
-        return f'{self.name}: {self.description}'
+        return f'{self.id}: {self.name}'
 
     class Meta:
         verbose_name = "Category"  # наименование модели в единственном числе
@@ -31,13 +31,13 @@ class Product(models.Model):
     date_of_creation = models.DateTimeField(
         default=timezone.now)  # дата создания продукта, с дефолтным значением текущего
     # времени
-    last_modified_date = models.DateTimeField(auto_now=True)  # дата последнего изменения продукта, с автоматическим
+    updated_at = models.DateTimeField(auto_now=True)  # дата последнего изменения продукта, с автоматическим
 
     # обновлением при изменении записи
 
     def __str__(self):
         # Метод для отображения объектов класса Product
-        return f"{self.name} ({self.category.name}): {self.price}"
+        return f"{self.id} ({self.name}): {self.price}, {self.category}"
 
     class Meta:
         verbose_name = "Product"  # наименование модели в единственном числе
