@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+        body {
+            color: #fff;
+            background: url(https://celes.club/uploads/posts/2022-06/1654695254_2-celes-club-p-oboi-na-rabochii-stol-kod-krasivie-2.jpg) center center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+  <h1>Contacts</h1>
+  <div>
+    <form method="post">
+       <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+      <div>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+      </div>
+      <div>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+      </div>
+      <div>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message"></textarea><br><br>
+      </div>
+      <div>
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+</body>
+</html>
