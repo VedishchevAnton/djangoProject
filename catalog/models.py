@@ -16,7 +16,6 @@ class Category(models.Model):
         verbose_name = "Category"  # наименование модели в единственном числе
         verbose_name_plural = "Categories"  # множественное число наименования модели
         ordering = ('name',)  # сортировка по имени категории
-        # db_table = "category_table"  # имя таблицы в базе данных для модели
 
 
 class Product(models.Model):
@@ -43,4 +42,3 @@ class Product(models.Model):
         verbose_name = "Product"  # наименование модели в единственном числе
         verbose_name_plural = "Products"  # множественное число наименования модели
         ordering = ('-date_of_creation',)  # сортировки по убыванию даты создания продукта
-        # db_table = "product_table"  # имя таблицы в базе данных для модели
