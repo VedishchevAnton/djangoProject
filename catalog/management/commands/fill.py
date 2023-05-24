@@ -5,9 +5,6 @@ from catalog.models import Category
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        # Удаление всех записей из таблицы Category
-        Category.objects.all().delete()
-
         # Заполнение таблицы новыми данными из списка
         category_data = [
             {'id': 1, 'name': 'Молочные продукты', 'description': 'Продукты, созданные на основе молока'},
@@ -17,6 +14,9 @@ class Command(BaseCommand):
             {'id': 5, 'name': 'Крупы', 'description': 'Зерна различных культур, преимущественно злаковых'},
             {'id': 6, 'name': 'Бобовые', 'description': 'Продукты, производимые из различных видов бобов'}
         ]
+        category_for_create = []
+        for category in category_data:
+            category_for_create.append(Category(**category))
+        Category.objects.all().delete()
+        Category.objects.bulk_create(category_for_create)
 
-        for item in category_data:
-            Category.objects.create(**item)
