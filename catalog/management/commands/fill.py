@@ -5,7 +5,7 @@ from catalog.models import Category
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        # Удаление всех записей из таблицы Category
+        # # Удаление всех записей из таблицы Category
         Category.objects.all().delete()
 
         # Заполнение таблицы новыми данными из списка
@@ -20,3 +20,5 @@ class Command(BaseCommand):
 
         for item in category_data:
             Category.objects.create(**item)
+
+        #
