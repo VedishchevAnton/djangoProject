@@ -63,9 +63,9 @@ db.sqlite3
 db.sqlite3-journal
 
 # Django migrations
-*/migrations/*.pyc
-*/migrations/__pycache__/
-*/migrations/*.py
+#*/migrations/*.pyc
+#*/migrations/__pycache__/
+#*/migrations/*.py
 
 # Flask stuff:
 instance/
