@@ -32,8 +32,13 @@ def contact(request):
 
 def product(request):
     product_list = Product.objects.all()
+    modified_product_list = []
+    for product in product_list:
+        modified_product = product
+        modified_product.description = product.description[:100]
+        modified_product_list.append(modified_product)
     context = {
-        'objects_list': product_list,
+        'objects_list': modified_product_list,
         'title': 'Список продуктов'
     }
     return render(request, 'catalog/product.html', context)
