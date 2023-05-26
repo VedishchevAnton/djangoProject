@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to our site!</title>
     <style>
         body {
-            color: #fff;
-            background: url(https://celes.club/uploads/posts/2022-06/1654695254_2-celes-club-p-oboi-na-rabochii-stol-kod-krasivie-2.jpg) center center;
-            background-size: cover;
+            color: black;
+            background: url(https://img.freepik.com/premium-vector/set-healthy-food-cartoons_18591-24543.jpg?w=2000) center center;
+            background-size: 35%;
+            text-align: center;
+            font-family: Arial, sans-serif;
         }
     </style>
 </head>
 <body>
-<div class="uk-container">
+  <div class="uk-container">
     <div class="uk-grid uk-child-width-1-2@m" uk-grid>
-        <div>
-            <h1>Welcome to our site!</h1>
-            <p>Here you will find a lot of interesting information.</p>
-            <a href="{% url 'contact' %}" class="btn btn-primary">Contacts</a>
-        </div>
-        <div>
-            <img id="photo" src="https://deftpdf.com/images/1101467601.jpg" width="700px" height="500px"/>
-        </div>
+      <div>
+        <h1>ДОБРО ПОЖАЛОВАТЬ!!!</h1>
+        <p>ПРОДУКТЫ ПО ДОСТУПНЫМ ЦЕНАМ!!!</p>
+        <p>ОТ ВЫБОРА ГЛАЗА РАЗБЕГАЮТСЯ!!!</p>
+        <a href="{% url 'contact' %}" class="btn btn-primary">Чего ждем? Заходим!</a>
+        <br>
+        <a href="{% url 'product_detail' %}" class="btn btn-primary">Cписок товаров!</a>
+      </div>
     </div>
-</div>
+  </div>
 </body>
 </html>

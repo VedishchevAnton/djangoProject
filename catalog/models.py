@@ -10,7 +10,8 @@ class Category(models.Model):
 
     def __str__(self):
         # Метод для отображения объектов класса Category
-        return f'{self.id}: {self.name}'
+        # return f'{self.id}: {self.name}'
+        return f'{self.name}'
 
     class Meta:
         verbose_name = "Category"  # наименование модели в единственном числе
@@ -36,7 +37,7 @@ class Product(models.Model):
 
     def __str__(self):
         # Метод для отображения объектов класса Product
-        return f"{self.id} ({self.name}): {self.price}, {self.category}"
+        return f"{self.name}: {self.price}, {self.category}"
 
     class Meta:
         verbose_name = "Product"  # наименование модели в единственном числе
