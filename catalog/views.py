@@ -11,7 +11,7 @@ def index(request):
     category_list = Category.objects.all()
     context = {
         'objects_list': category_list,
-        'title': 'Главная'
+        'title': 'Список категорий продуктов'
     }
     return render(request, 'catalog/index.html', context)
 
@@ -34,7 +34,7 @@ def product(request):
     product_list = Product.objects.all()
     context = {
         'objects_list': product_list,
-        'title': 'Главная'
+        'title': 'Список продуктов'
     }
     return render(request, 'catalog/product.html', context)
 

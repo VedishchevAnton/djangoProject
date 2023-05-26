@@ -36,8 +36,10 @@ class Product(models.Model):
     # обновлением при изменении записи
 
     def __str__(self):
-        # Метод для отображения объектов класса Product
-        return f"{self.name}: {self.price}, {self.category}"
+        return f"{self.name}:\n" \
+               f"{self.description}\n" \
+               f"{self.price} руб.\n" \
+               f"{self.category}"
 
     class Meta:
         verbose_name = "Product"  # наименование модели в единственном числе
