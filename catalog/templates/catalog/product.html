@@ -2,11 +2,9 @@
 
 {% block content %}
     {% for object in objects_list %}
-        {% load mytags %}
         <div class="col-md-4">
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
-                    <img src="{{ myimage.image.url }}" alt="My Image">
                      <p class="card-text"><a href="{% url 'catalog:product_details' product_id=object.id %}">{{ object.name }}</a></p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
