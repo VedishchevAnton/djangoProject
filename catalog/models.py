@@ -36,10 +36,7 @@ class Product(models.Model):
     # обновлением при изменении записи
 
     def __str__(self):
-        return f"{self.name}:\n" \
-               f"{self.description}\n" \
-               f"{self.price} руб.\n" \
-               f"{self.category}"
+        return f'{self.image}\n{self.name} {self.description}'
 
     class Meta:
         verbose_name = "Product"  # наименование модели в единственном числе
