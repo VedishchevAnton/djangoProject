@@ -1,10 +1,12 @@
+import os
 from django import template
 from django.conf import settings
-from urllib.parse import urljoin
 
 register = template.Library()
 
 
-@register.filter
-def media_url(value):
-    return urljoin(settings.MEDIA_URL, value)
+@register.simple_tag
+def mediapath(image_path):
+    media_url = settings.MEDIA_URL
+    full_path = os.path.join(media_url, str(image_path))
+    return full_path

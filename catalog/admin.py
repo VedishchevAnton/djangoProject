@@ -1,9 +1,10 @@
 from django.contrib import admin
-from catalog.models import Category, Product
-
+from catalog.models import Category, Product, MyImage
 
 # admin.site.register(Category)
 # admin.site.register(Product)
+admin.site.register(MyImage)
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
