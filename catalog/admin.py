@@ -1,9 +1,8 @@
 from django.contrib import admin
-from catalog.models import Category, Product, MyImage
+from catalog.models import Category, Product
 
 # admin.site.register(Category)
 # admin.site.register(Product)
-admin.site.register(MyImage)
 
 
 @admin.register(Category)

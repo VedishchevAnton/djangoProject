@@ -45,7 +45,3 @@ class Product(models.Model):
         verbose_name = "Product"  # наименование модели в единственном числе
         verbose_name_plural = "Products"  # множественное число наименования модели
         ordering = ('-date_of_creation',)  # сортировки по убыванию даты создания продукта
-
-
-class MyImage(models.Model):
-    image = models.ImageField(upload_to='images/')
