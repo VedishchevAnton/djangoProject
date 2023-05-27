@@ -3,12 +3,9 @@
 
 {% block content %}
     {% for object in objects_list %}
-        {% load mytags %}
         <div class="col-md-4">
             <div class="card mb-4 box-shadow">
-                <img src="{{ object.image.url }}" alt="{{ object.title }}">
                 <div class="card-body">
-                    <img src="{{ image.url }}" alt="My Image">
                     <p class="card-text">{{ object| title }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
