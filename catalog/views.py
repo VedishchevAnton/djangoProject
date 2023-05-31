@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from catalog.models import Category, Product, Contacts
+from catalog.models import Category, Product, Contacts, Blogs
 
 
 class CategoryListView(generic.ListView):
@@ -50,18 +50,6 @@ class ProductsDeleteView(generic.DeleteView):
     success_url = reverse_lazy('catalog:products')
 
 
-# def contact(request):
-#     # Если метод запроса POST, значит пользователь отправил сообщение через форму контактов
-#     if request.method == 'POST':
-#         # Получаем данные из формы контактов (имя, email и сообщение)
-#         name = request.POST.get('name')
-#         email = request.POST.get('email')
-#         message = request.POST.get('message')
-#         print(f'Name: {name}\nEmail: {email}\nMessage: {message}')
-#     context = {
-#         'title': 'Контакты'
-#     }
-#     return render(request, 'catalog/contact.html', context)
 class ContactCreateView(generic.CreateView):
     model = Contacts
     template_name = "catalog/contact.html"
@@ -71,3 +59,10 @@ class ContactCreateView(generic.CreateView):
         context_data = super().get_context_data(**kwargs)
         context_data["title"] = "Наши контакты"
         return context_data
+
+
+class BlogsListView(generic.ListView):
+    model = Blogs
+    extra_context = {
+        'title': 'Блог'
+    }

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Category, Product, Contacts
+from catalog.models import Category, Product, Contacts, Blogs
 
 
 # admin.site.register(Category)
@@ -21,3 +21,11 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Contacts)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "email",)
+
+
+@admin.register(Blogs)
+class BlogsAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "slug", "created_at", "blog_views")
+    search_fields = ("name", "description")
+    prepopulated_fields = {"slug": ("name",)}
+    list_editable = ("created_at",)

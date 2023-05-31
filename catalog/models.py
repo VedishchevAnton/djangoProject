@@ -55,3 +55,20 @@ class Contacts(models.Model):
     class Meta:
         verbose_name = "contact"
         verbose_name_plural = "contacts"
+
+
+class Blogs(models.Model):
+    name = models.CharField(max_length=100, verbose_name="blog_name")  # заголовок
+    slug = models.CharField(max_length=255)  # slug (реализовать через CharField)
+    description = models.TextField(null=True, blank=True, verbose_name="blog_description")  # содержимое
+    image = models.ImageField(upload_to='products/', **NULLABLE)  # превью (изображение)
+    created_at = models.DateTimeField(default=timezone.now)  # дата создания
+    is_published = models.BooleanField(default=True)  # признак публикации
+    blog_views = models.IntegerField(verbose_name="blog_views", default=0)  # количество просмотров
+
+    def __str__(self):
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = "Blog"  # наименование модели в единственном числе
+        verbose_name_plural = "Blogs"  # множественное число наименования модели
