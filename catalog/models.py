@@ -42,3 +42,16 @@ class Product(models.Model):
         verbose_name = "Product"  # наименование модели в единственном числе
         verbose_name_plural = "Products"  # множественное число наименования модели
         ordering = ('-date_of_creation',)  # сортировки по убыванию даты создания продукта
+
+
+class Contacts(models.Model):
+    name = models.CharField(max_length=100, verbose_name="user__name")
+    email = models.CharField(max_length=100, verbose_name="user_email")
+    message = models.CharField(max_length=100, verbose_name="user_message")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "contact"
+        verbose_name_plural = "contacts"
