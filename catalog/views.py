@@ -63,6 +63,7 @@ class ContactCreateView(generic.CreateView):
 
 class BlogsListView(generic.ListView):
     model = Blogs
+    context_object_name = 'objects_list'
     extra_context = {
         'title': 'Блог'
     }
