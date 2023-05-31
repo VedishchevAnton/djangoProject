@@ -45,6 +45,11 @@ class ProductsUpdateView(generic.UpdateView):
     success_url = reverse_lazy('catalog:products')
 
 
+class ProductsDeleteView(generic.DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:products')
+
+
 def contact(request):
     # Если метод запроса POST, значит пользователь отправил сообщение через форму контактов
     if request.method == 'POST':
