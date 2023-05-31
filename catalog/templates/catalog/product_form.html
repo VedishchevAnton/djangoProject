@@ -6,9 +6,9 @@
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
-                    <h1>Добавить новый продукт</h1>
+{#                    <h1>Добавить новый продукт</h1>#}
                     {{ form.as_p }}
-                    <input type="submit" class="btn btn-success" value="Добавить">
+                    <input type="submit" class="btn btn-success" value="{% if object %}Изменить{% else %}Добавить{% endif %}">
                 </form>
                 <div class="card-footer">
                     <a href="{% url 'catalog:products' %}" class="btn btn-primary"><< Назад</a>

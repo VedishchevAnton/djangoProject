@@ -9,6 +9,7 @@
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
                      <p class="card-text"><a href="{% url 'catalog:product_details' pk=object.id %}">{{ object.name }}</a></p>
+                     <p class="btn btn-warning"><a href="{% url 'catalog:products_update' object.pk %}" role="button">Изменить &raquo;</a></p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
 {#                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>#}
