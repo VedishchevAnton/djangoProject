@@ -18,6 +18,19 @@ class CategoryListView(generic.ListView):
     }
 
 
+class ProductListView(generic.ListView):
+    model = Product
+    context_object_name = 'objects_list'
+    template_name = 'catalog/product.html'
+    extra_context = {'title': 'Список продуктов'}
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        for product in queryset:
+            product.description = product.description[:100]
+        return queryset
+
+
 def contact(request):
     # Если метод запроса POST, значит пользователь отправил сообщение через форму контактов
     if request.method == 'POST':
@@ -32,18 +45,18 @@ def contact(request):
     return render(request, 'catalog/contact.html', context)
 
 
-def products(request):
-    product_list = Product.objects.all()
-    modified_product_list = []
-    for product in product_list:
-        modified_product = product
-        modified_product.description = product.description[:100]
-        modified_product_list.append(modified_product)
-    context = {
-        'objects_list': modified_product_list,
-        'title': 'Список продуктов'
-    }
-    return render(request, 'catalog/product.html', context)
+# def products(request):
+#     product_list = Product.objects.all()
+#     modified_product_list = []
+#     for product in product_list:
+#         modified_product = product
+#         modified_product.description = product.description[:100]
+#         modified_product_list.append(modified_product)
+#     context = {
+#         'objects_list': modified_product_list,
+#         'title': 'Список продуктов'
+#     }
+#     return render(request, 'catalog/product.html', context)
 
 
 def product_details(request, product_id):
