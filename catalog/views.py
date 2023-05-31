@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 from catalog.models import Category, Product
 
@@ -30,6 +31,13 @@ class ProductsDetailView(generic.DetailView):
         context_data = super().get_context_data(**kwargs)
         # context_data['title'] = context_data['object']
         return context_data
+
+
+class ProductsCreatView(generic.CreateView):
+    model = Product
+    fields = ('name', 'description', 'category', 'price')
+    success_url = reverse_lazy('catalog:products')
+
 
 
 def contact(request):
