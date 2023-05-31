@@ -1,19 +1,21 @@
 from django.shortcuts import render, get_object_or_404
-
+from django.views import generic
 from catalog.models import Category, Product
 
 
-# def home(request):
-#     return render(request, 'catalog/home.html')
+# def category(request):
+#     category_list = Category.objects.all()
+#     context = {
+#         'objects_list': category_list,
+#         'title': 'Список категорий продуктов'
+#     }
+#     return render(request, 'catalog/category_list.html', context)
 
-
-def index(request):
-    category_list = Category.objects.all()
-    context = {
-        'objects_list': category_list,
+class CategoryListView(generic.ListView):
+    model = Category
+    extra_context = {
         'title': 'Список категорий продуктов'
     }
-    return render(request, 'catalog/index.html', context)
 
 
 def contact(request):
