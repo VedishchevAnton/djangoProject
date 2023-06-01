@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.utils.text import slugify
 from catalog.models import Category, Product, Contacts, Blogs
 
 
@@ -84,8 +85,12 @@ class BlogsDetailView(generic.DetailView):
 
 class BlogCreateView(generic.CreateView):
     model = Blogs
-    fields = ['name', 'description', 'image']
+    fields = ['name', 'slug', 'description', 'image', 'is_published', 'blog_views']
     success_url = reverse_lazy('catalog:blogs')
+
+    def form_valid(self, form):
+        form.instance.slug = slugify(form.instance.name)
+        return super().form_valid(form)
 
 
 class BlogUpdateView(generic.UpdateView):
