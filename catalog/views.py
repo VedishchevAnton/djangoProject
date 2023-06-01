@@ -98,6 +98,10 @@ class BlogUpdateView(generic.UpdateView):
     fields = ['name', 'description', 'image']
     success_url = reverse_lazy('catalog:blogs')
 
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('catalog:blog_details', kwargs={'pk': pk})
+
 
 class BlogsDeleteView(generic.DeleteView):
     model = Blogs
