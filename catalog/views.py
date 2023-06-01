@@ -71,10 +71,15 @@ class BlogsListView(generic.ListView):
 class BlogsDetailView(generic.DetailView):
     model = Blogs
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        # context_data['title'] = context_data['object']
-        return context_data
+    def get(self, request, *args, **kwargs):
+        # Получаем объект статьи
+        self.object = self.get_object()
+        # Увеличиваем счетчик просмотров
+        self.object.blog_views += 1
+        # Сохраняем изменения в базе данных
+        self.object.save()
+        # Вызываем метод get() родительского класса DetailView
+        return super().get(request, *args, **kwargs)
 
 
 class BlogCreateView(generic.CreateView):
