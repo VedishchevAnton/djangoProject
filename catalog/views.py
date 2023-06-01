@@ -80,3 +80,9 @@ class BlogsDetailView(generic.DetailView):
         context = self.get_context_data(object=self.object)
         # Возвращаем ответ с отрендеренным шаблоном и контекстом данных
         return self.render_to_response(context)
+
+
+class BlogCreateView(generic.CreateView):
+    model = Blogs
+    fields = ['name', 'description', 'image']
+    success_url = reverse_lazy('catalog:blogs')
