@@ -71,18 +71,19 @@ class BlogsListView(generic.ListView):
 class BlogsDetailView(generic.DetailView):
     model = Blogs
 
-    def get(self, request, *args, **kwargs):
-        # Получаем объект блога
-        self.object = self.get_object()
-        # Увеличиваем количество просмотров блога
-        self.object.increment_view_count()
-        # Получаем контекст данных для шаблона
-        context = self.get_context_data(object=self.object)
-        # Возвращаем ответ с отрендеренным шаблоном и контекстом данных
-        return self.render_to_response(context)
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        # context_data['title'] = context_data['object']
+        return context_data
 
 
 class BlogCreateView(generic.CreateView):
+    model = Blogs
+    fields = ['name', 'description', 'image']
+    success_url = reverse_lazy('catalog:blogs')
+
+
+class BlogUpdateView(generic.UpdateView):
     model = Blogs
     fields = ['name', 'description', 'image']
     success_url = reverse_lazy('catalog:blogs')

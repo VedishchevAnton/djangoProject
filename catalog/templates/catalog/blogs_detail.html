@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+
+
+{% block content %}
+
+    <style>
+        .centered-container {
+            text-align: center;
+        }
+
+        .centered-container ul {
+            display: inline-block;
+            text-align: left;
+        }
+    </style>
+    {% load mytags %}
+    <ul>
+        <h4>{{ blogs.name }}</h4>
+        <img class="img-thumbnail" src="{% mediapath product.image %}" alt="Thumbnail image" width="400" height="400"/>
+
+    </ul>
+    <ul>
+        <div class="centered-container">
+
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <p style="text-align: left;">{{ blogs.description }} </p>
+
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'catalog:blogs' %}" class="btn btn-primary"><< Назад</a>
+                </div>
+            </div>
+        </div>
+    </ul>
+{% endblock %}
+>
