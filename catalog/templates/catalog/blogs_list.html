@@ -12,6 +12,7 @@
                     <div class="card-body">
                         <p class="card-text"><a href="{% url 'catalog:blog_details' pk=object.id %}">{{ object.name }}</a></p>
                         <p class="btn btn-warning"><a href="{% url 'catalog:blogs_update' object.pk %}" role="button">Изменить &raquo;</a></p>
+                        <p class="btn btn-danger"><a href="{% url 'catalog:blogs_delete' object.pk %}" role="button">Удалить &raquo;</a></p>
                         <img class="img-thumbnail" src="{% mediapath object.image %}" alt="Thumbnail image" width="200"
                              height="200"/>
                         <p class="card-text">{{ object.name }}<br>{{ object.description }}</p>

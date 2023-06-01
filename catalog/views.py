@@ -87,3 +87,8 @@ class BlogUpdateView(generic.UpdateView):
     model = Blogs
     fields = ['name', 'description', 'image']
     success_url = reverse_lazy('catalog:blogs')
+
+
+class BlogsDeleteView(generic.DeleteView):
+    model = Blogs
+    success_url = reverse_lazy('catalog:blogs')
