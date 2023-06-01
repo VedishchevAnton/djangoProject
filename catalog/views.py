@@ -63,7 +63,20 @@ class ContactCreateView(generic.CreateView):
 
 class BlogsListView(generic.ListView):
     model = Blogs
-    context_object_name = 'objects_list'
-    extra_context = {
-        'title': 'Блог'
-    }
+    queryset = Blogs.objects.filter(is_published=True)
+    context_object_name = 'blogs'
+    paginate_by = 10
+
+
+class BlogsDetailView(generic.DetailView):
+    model = Blogs
+
+    def get(self, request, *args, **kwargs):
+        # Получаем объект блога
+        self.object = self.get_object()
+        # Увеличиваем количество просмотров блога
+        self.object.increment_view_count()
+        # Получаем контекст данных для шаблона
+        context = self.get_context_data(object=self.object)
+        # Возвращаем ответ с отрендеренным шаблоном и контекстом данных
+        return self.render_to_response(context)
