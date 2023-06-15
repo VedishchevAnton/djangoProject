@@ -1,27 +1,20 @@
 {% extends 'catalog/base.html' %}
 
 {% block content %}
-    <diov class="col-12">
+    <div class="col-12">
         <a href="{% url 'catalog:products_create' %}" class="btn btn-primary m-2">Добавить продукт</a>
-    </diov>
+    </div>
     {% for object in objects_list %}
         <div class="col-md-4">
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
-                    <p class="card-text"><a
-                            href="{% url 'catalog:product_details' pk=object.id %}">{{ object.name }}</a></p>
+                    <p class="card-text"><a href="{% url 'catalog:product_details' pk=object.id %}">{{ object.name }}</a></p>
                     {% if object.active_version %}
-                        <p class="card-text">Версия: {{ object.active_version.version_name }}</p>
-                        {% endif %}
-                    <p class="btn btn-warning"><a href="{% url 'catalog:products_update' object.pk %}" role="button">Изменить
-                        &raquo;</a></p>
-                    <p class="btn btn-danger"><a href="{% url 'catalog:products_delete' object.pk %}" role="button">Удалить
-                        &raquo;</a></p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            {#                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>#}
-                            {#                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>#}
-                        </div>
+                        <p class="card-text">Активная версия: {{ object.active_version.version_name }}</p>
+                    {% endif %}
+                    <div class="btn-group">
+                        <a href="{% url 'catalog:products_update' object.pk %}" class="btn btn-warning" role="button">Изменить &raquo;</a>
+                        <a href="{% url 'catalog:products_delete' object.pk %}" class="btn btn-danger" role="button">Удалить &raquo;</a>
                     </div>
                 </div>
             </div>

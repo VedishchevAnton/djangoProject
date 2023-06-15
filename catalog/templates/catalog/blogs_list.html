@@ -1,33 +1,34 @@
 {% extends 'catalog/base.html' %}
+
 {% block content %}
-    <diov class="col-12">
-    <a href="{% url 'catalog:blog_create' %}" class="btn btn-primary m-2">Добавить блог</a>
-    </diov>
-    <body>
-    <ul>
-        {% for object in object_list %}
-            {% load mytags %}
-            <div class="col-md-14">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <p class="card-text"><a href="{% url 'catalog:blog_details' pk=object.id %}">{{ object.name }}</a></p>
-                        <p class="btn btn-warning"><a href="{% url 'catalog:blogs_update' object.pk %}" role="button">Изменить &raquo;</a></p>
-                        <p class="btn btn-danger"><a href="{% url 'catalog:blogs_delete' object.pk %}" role="button">Удалить &raquo;</a></p>
-                        <img class="img-thumbnail" src="{% mediapath object.image %}" alt="Thumbnail image" width="200"
-                             height="200"/>
-                        <p class="card-text">{{ object.name }}<br>{{ object.description }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                {#                              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>#}
-                                {#                              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>#}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <a href="{% url 'catalog:blog_create' %}" class="btn btn-primary mb-3">Добавить блог</a>
+            </div>
+        </div>
+        <div class="row">
+            {% for object in object_list %}
+                {% load mytags %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{% mediapath object.image %}" alt="Thumbnail image">
+                        <div class="card-body">
+                            <h5 class="card-title"><a
+                                    href="{% url 'catalog:blog_details' pk=object.id %}">{{ object.name }}</a></h5>
+                            <p class="card-text">{{ object.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'catalog:blogs_update' object.pk %}"
+                                   class="btn btn-warning">Изменить</a>
+                                <a href="{% url 'catalog:blogs_delete' object.pk %}" class="btn btn-danger">Удалить</a>
                             </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'catalog:products' %}" class="btn btn-primary"><< Назад</a>
                         </div>
                     </div>
                 </div>
-            </div>
-
-        {% endfor %}
-
-    </ul>
-    </body>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

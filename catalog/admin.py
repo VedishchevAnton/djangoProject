@@ -33,5 +33,5 @@ class BlogsAdmin(admin.ModelAdmin):
 
 @admin.register(Version)
 class VersionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'version_number', 'version_name', 'is_current')
-    list_filter = ('product__name', 'is_current')
+    list_display = ('product', 'version_number', 'version_name', 'is_current')
+    list_filter = ('product', )

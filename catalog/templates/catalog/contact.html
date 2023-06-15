@@ -14,12 +14,18 @@
     <div class="col-md-4">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
-                <form method="post">
+                <form method="post" class="contact-form">
                     {% csrf_token %}
-                    <h1>Свяжитесь с нами!</h1>
-                    <input class="form-control mb-2" name="name" placeholder="name"/>
-                    <input class="form-control mb-2" name="email" placeholder="email"/>
-                    <textarea class="form-control mb-2" name="message" placeholder="message"></textarea>
+                    <h1 class="form-header">Свяжитесь с нами!</h1>
+                    <div class="form-group">
+                        <input class="form-control" name="name" placeholder="Имя"/>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="email" placeholder="Email"/>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="message" placeholder="Сообщение"></textarea>
+                    </div>
                     <button type="submit" class="btn btn-primary form-control">Отправить</button>
                 </form>
             </div>
