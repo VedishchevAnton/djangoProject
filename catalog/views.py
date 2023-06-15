@@ -44,7 +44,7 @@ class ProductsCreatView(generic.CreateView):
 
 class ProductsUpdateView(generic.UpdateView):
     model = Product
-    fields = ('name', 'description', 'category', 'price')
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
 
 
