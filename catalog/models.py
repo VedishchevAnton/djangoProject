@@ -80,9 +80,9 @@ class Blogs(models.Model):
 
 class Version(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)  # название продукта
-    version_number = models.CharField(max_length=100)  # номер версии
-    version_name = models.CharField(max_length=100)  # название версии
-    is_current = models.BooleanField(default=False)  # является ли версия текущей
+    version_number = models.CharField(max_length=100, verbose_name='Номер версии')  # номер версии
+    version_name = models.CharField(max_length=100, verbose_name='Название версии')  # название версии
+    is_current = models.BooleanField(default=False, verbose_name='Является ли версия текущей')
 
     def __str__(self):
         return f"{self.product} {self.version_number} ({self.version_name})"
