@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils import timezone
 
@@ -38,6 +39,13 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.image}\n{self.name} {self.description}'
 
+    def get_active_version(self):
+        active_version = self.version_set.get_active_version()
+        if active_version:
+            return f"{active_version.version_number} ({active_version.version_name})"
+        else:
+            return "No active version"
+
     class Meta:
         verbose_name = "Product"  # наименование модели в единственном числе
         verbose_name_plural = "Products"  # множественное число наименования модели
@@ -72,3 +80,20 @@ class Blogs(models.Model):
     class Meta:
         verbose_name = "Blog"  # наименование модели в единственном числе
         verbose_name_plural = "Blogs"  # множественное число наименования модели
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)  # название продукта
+    version_number = models.CharField(max_length=100)  # номер версии
+    version_name = models.CharField(max_length=100)  # название версии
+    is_current = models.BooleanField(default=False)  # является ли версия текущей
+
+    def __str__(self):
+        return f"{self.product} {self.version_number} ({self.version_name})"
+
+    def get_active_version(self):
+        return Version.objects.filter(product=self.product, is_current=True).first()
+
+    class Meta:
+        verbose_name = "Version"
+        verbose_name_plural = "Versions"

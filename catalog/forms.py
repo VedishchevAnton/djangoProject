@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from catalog.models import Product, Version
 
 
 class ProductForm(forms.ModelForm):
@@ -20,5 +20,11 @@ class ProductForm(forms.ModelForm):
                 raise forms.ValidationError(f'Слово "{word}" запрещено в названии и описании продукта.')
         return cleaned_data
 
+
 # Валидация в Django - это процесс проверки данных, введенных пользователем, на соответствие заданным правилам. В
 # Django валидация может быть выполнена на разных уровнях, например, на уровне форм, моделей или сериализаторов
+
+class VersionForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = '__all__'

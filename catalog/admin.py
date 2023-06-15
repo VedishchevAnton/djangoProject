@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Category, Product, Contacts, Blogs
+from catalog.models import Category, Product, Contacts, Blogs, Version
 
 
 # admin.site.register(Category)
@@ -29,3 +29,9 @@ class BlogsAdmin(admin.ModelAdmin):
     search_fields = ("name", "description")
     prepopulated_fields = {"slug": ("name",)}
     list_editable = ("created_at",)
+
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'version_number', 'version_name', 'is_current')
+    list_filter = ('product__name', 'is_current')
