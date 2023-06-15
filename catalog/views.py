@@ -27,6 +27,13 @@ class ProductsListView(generic.ListView):
             product.description = product.description[:100]
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context['object_list']
+        for product in products:
+            product.get_active_version()
+        return context
+
 
 class ProductsDetailView(generic.DetailView):
     model = Product

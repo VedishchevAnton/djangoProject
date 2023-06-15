@@ -40,11 +40,7 @@ class Product(models.Model):
         return f'{self.image}\n{self.name} {self.description}'
 
     def get_active_version(self):
-        active_version = self.version_set.get_active_version()
-        if active_version:
-            return f"{active_version.version_number} ({active_version.version_name})"
-        else:
-            return "No active version"
+        return Version.get_active_version(self)
 
     class Meta:
         verbose_name = "Product"  # наименование модели в единственном числе
@@ -91,8 +87,17 @@ class Version(models.Model):
     def __str__(self):
         return f"{self.product} {self.version_number} ({self.version_name})"
 
-    def get_active_version(self):
-        return Version.objects.filter(product=self.product, is_current=True).first()
+    def save(self, *args, **kwargs):
+        if self.is_current:  # Деактивируем все другие версии для данного продукта
+            Version.objects.filter(product=self.product).exclude(pk=self.pk).update(is_current=False)
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_active_version(cls, product):
+        try:
+            return cls.objects.get(product=product, is_current=True)
+        except ObjectDoesNotExist:
+            return None
 
     class Meta:
         verbose_name = "Version"
