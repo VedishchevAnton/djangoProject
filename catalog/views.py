@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.utils.text import slugify
+
+from catalog.forms import ProductForm
 from catalog.models import Category, Product, Contacts, Blogs
 
 
@@ -36,7 +38,7 @@ class ProductsDetailView(generic.DetailView):
 
 class ProductsCreatView(generic.CreateView):
     model = Product
-    fields = ('name', 'description', 'category', 'price')
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
 
 
