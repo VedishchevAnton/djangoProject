@@ -1,7 +1,5 @@
-from django.core.mail import send_mail
-from django.shortcuts import redirect
+from django.contrib.auth.views import PasswordResetView
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import CreateView, UpdateView
 
 from users.forms import UserRegisterForm, UserProfileForm
@@ -36,6 +34,7 @@ class ProfileView(UpdateView):
     #     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
     #     return response
 
+
 #
 #
 # class VerifyEmailView(View):
@@ -44,3 +43,10 @@ class ProfileView(UpdateView):
 #         user.email_verified = True
 #         user.save()
 #         return redirect('users:profile')
+
+# class MyPasswordResetView(PasswordResetView):
+#     email_template_name = 'users/password_reset_email.html'  # имя шаблона для отправки письма с инструкциями по
+#     # восстановлению пароля
+#     success_url = reverse_lazy(
+#         'password_reset_done')  # URL, на который будет перенаправлен пользователь после успешной отправки письма
+#     template_name = 'users/password_reset_form.html'  # имя шаблона для отображения формы восстановления пароля
