@@ -11,5 +11,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', ProfileView.as_view(), name='profile'),
+    # path('verify-email/<int:pk>/', VerifyEmailView.as_view(), name='verify_email'),
 
 ]
