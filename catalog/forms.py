@@ -5,7 +5,7 @@ from catalog.models import Product, Version
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'price']
+        exclude = ('created_at', 'recreated_at', 'product_owner')
 
     def clean(self):
         cleaned_data = super().clean()

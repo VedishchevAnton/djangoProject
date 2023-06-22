@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.utils.text import slugify
@@ -46,23 +45,10 @@ class ProductsDetailView(generic.DetailView):
         return context_data
 
 
-class ProductsCreatView(generic.CreateView):
+class ProductsCreatView(LoginRequiredMixin, generic.CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
-
-    def post(self, request, *args, **kwargs):
-        # Если пользователь не аутентифицирован, метод возвращает HttpResponse со статусом 401. Если пользователь
-        # аутентифицирован, метод создает новый объект модели Product с помощью данных, полученных из POST-запроса,
-        # и возвращает HttpResponse со статусом 201 и содержимым в формате JSON, содержащим идентификатор созданного
-        # объекта модели
-        if not request.user.is_authenticated:
-            return HttpResponse(status=401,
-                                content="Для выполнения этого действия необходимо пройти аутентификацию и "
-                                        "зарегистрироваться.")
-        name = request.POST.get('name')
-        product = Product.objects.create(name=name, user=request.user)
-        return HttpResponse(status=201, content=f'{{"id": {product.id}}}')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -76,7 +62,9 @@ class ProductsCreatView(generic.CreateView):
     def form_valid(self, form):
         context_data = self.get_context_data()
         formset = context_data['formset']
-        self.object = form.save()
+        self.object = form.save(commit=False)
+        self.object.product_owner = self.request.user
+        self.object.save()
 
         if formset.is_valid():
             formset.instance = self.object
@@ -84,23 +72,10 @@ class ProductsCreatView(generic.CreateView):
         return super().form_valid(form)
 
 
-class ProductsUpdateView(generic.UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
-
-    def post(self, request, *args, **kwargs):
-        # Если пользователь не аутентифицирован, метод возвращает HttpResponse со статусом 401. Если пользователь
-        # аутентифицирован, метод создает новый объект модели Product с помощью данных, полученных из POST-запроса,
-        # и возвращает HttpResponse со статусом 201 и содержимым в формате JSON, содержащим идентификатор созданного
-        # объекта модели
-        if not request.user.is_authenticated:
-            return HttpResponse(status=401,
-                                content="Для выполнения этого действия необходимо пройти аутентификацию и "
-                                        "зарегистрироваться.")
-        name = request.POST.get('name')
-        product = Product.objects.create(name=name, user=request.user)
-        return HttpResponse(status=201, content=f'{{"id": {product.id}}}')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -121,22 +96,9 @@ class ProductsUpdateView(generic.UpdateView):
         return super().form_valid(form)
 
 
-class ProductsDeleteView(generic.DeleteView):
+class ProductsDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:products')
-
-    def post(self, request, *args, **kwargs):
-        # Если пользователь не аутентифицирован, метод возвращает HttpResponse со статусом 401. Если пользователь
-        # аутентифицирован, метод создает новый объект модели Product с помощью данных, полученных из POST-запроса,
-        # и возвращает HttpResponse со статусом 201 и содержимым в формате JSON, содержащим идентификатор созданного
-        # объекта модели
-        if not request.user.is_authenticated:
-            return HttpResponse(status=401,
-                                content="Для выполнения этого действия необходимо пройти аутентификацию и "
-                                        "зарегистрироваться.")
-        name = request.POST.get('name')
-        product = Product.objects.create(name=name, user=request.user)
-        return HttpResponse(status=201, content=f'{{"id": {product.id}}}')
 
 
 class ContactCreateView(generic.CreateView):

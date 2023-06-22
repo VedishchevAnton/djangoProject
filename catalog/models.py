@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils import timezone
@@ -33,6 +34,8 @@ class Product(models.Model):
         default=timezone.now)  # дата создания продукта, с дефолтным значением текущего
     # времени
     updated_at = models.DateTimeField(auto_now=True)  # дата последнего изменения продукта, с автоматическим
+    product_owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
+                                      null=True)  # привязка к авторизованному пользователю.
 
     # обновлением при изменении записи
 
