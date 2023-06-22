@@ -53,4 +53,5 @@ class VerifyEmailView(View):
         user.is_verified = True
         user.save()
         login(request, user)
-        return redirect('home')
+        return render(request, 'users/verify_email.html')
+
