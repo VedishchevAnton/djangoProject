@@ -3,6 +3,8 @@ from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
+    PasswordResetCompleteView
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -62,3 +64,22 @@ class VerifyEmailSentView(View):
 
 class EmailConfirmedView(TemplateView):
     template_name = 'users/email_confirmed.html'
+
+
+class UserPasswordResetView(PasswordResetView):
+    email_template_name = 'users/registration/password_reset_email.html'
+    template_name = 'users/registration/password_reset_form.html'
+    success_url = reverse_lazy('users:password_reset_done')
+
+
+class UserPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'users/registration/password_reset_done.html'
+
+
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'users/registration/password_reset_confirm.html'
+    success_url = reverse_lazy("users:password_reset_complete")
+
+
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'users/registration/password_reset_complete.html'
