@@ -1,22 +1,29 @@
+from django.apps import config
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
+
 from django.views import View
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, TemplateView
 
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
+from users.utils import send_verification_email
 
 
-# Create your views here.
+class RegisterView(CreateView):
+    model = User
+    form_class = UserRegisterForm
+    template_name = 'users/register.html'
 
-# class RegisterView(CreateView):
-#     model = User
-#     form_class = UserRegisterForm
-#     template_name = 'users/register.html'
-#     success_url = reverse_lazy('users:login')
+    def form_valid(self, form):
+        new_user = form.save()
+        send_verification_email(new_user)
+        return redirect('users:verify_email_sent')
 
 
 class ProfileView(UpdateView):
@@ -28,30 +35,30 @@ class ProfileView(UpdateView):
         return self.request.user
 
 
-class RegisterView(View):
-    def get(self, request):
-        form = UserRegisterForm()
-        return render(request, 'users/register.html', {'form': form})
-
-    def post(self, request):
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            return redirect('users:register_done')
-        return render(request, 'users/register.html', {'form': form})
-
-
-class RegisterDoneView(View):
-    def get(self, request):
-        return render(request, 'users/register_done.html')
-
-
 class VerifyEmailView(View):
-    @method_decorator(login_required)
-    def get(self, request, pk):
-        user = User.objects.get(pk=pk)
-        user.is_verified = True
-        user.save()
-        login(request, user)
-        return render(request, 'users/verify_email.html')
+    def get(self, request, uidb64, token):
+        user = self.get_user(uidb64)
 
+        if user is not None and default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            login(request, user)
+            return redirect('users:email_confirmed')
+
+    @staticmethod
+    def get_user(uidb64):
+        try:
+            uid = uidb64
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        return user
+
+
+class VerifyEmailSentView(View):
+    def get(self, request):
+        return render(request, 'users/verify_email_sent.html')
+
+
+class EmailConfirmedView(TemplateView):
+    template_name = 'users/email_confirmed.html'
