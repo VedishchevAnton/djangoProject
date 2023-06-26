@@ -36,8 +36,8 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)  # дата последнего изменения продукта, с автоматическим
     product_owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
                                       null=True)  # привязка к авторизованному пользователю.
-
     # обновлением при изменении записи
+    is_published = models.BooleanField(default=False)  # признак публикации продукта
 
     def __str__(self):
         return f'{self.image}\n{self.name} {self.description}'
@@ -49,6 +49,11 @@ class Product(models.Model):
         verbose_name = "Product"  # наименование модели в единственном числе
         verbose_name_plural = "Products"  # множественное число наименования модели
         ordering = ('-date_of_creation',)  # сортировки по убыванию даты создания продукта
+        permissions = [
+            ("can_cancel_product_publication", "Can cancel product publication"),
+            ("can_change_product_description", "Can change product description"),
+            ("can_change_product_category", "Can change product category"),
+        ]
 
 
 class Contacts(models.Model):

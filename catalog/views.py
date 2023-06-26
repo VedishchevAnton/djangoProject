@@ -1,6 +1,6 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.utils.text import slugify
@@ -45,10 +45,11 @@ class ProductsDetailView(generic.DetailView):
         return context_data
 
 
-class ProductsCreatView(LoginRequiredMixin, generic.CreateView):
+class ProductsCreatView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
+    permission_required = 'catalog.add_product'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -72,10 +73,17 @@ class ProductsCreatView(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
 
-class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
+    permission_required = 'catalog.change_product'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.product_owner != self.request.user:
+            raise Http404("Вы не являетесь владельцем продукта.")
+        return obj
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -87,18 +95,24 @@ class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
         return context_data
 
     def form_valid(self, form):
+        if not self.request.user.has_perm('catalog.can_change_product_description'):
+            return HttpResponseForbidden("You don't have permission to change product description.")
         formset = self.get_context_data()['formset']
         self.object = form.save()
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
-
         return super().form_valid(form)
 
 
-class ProductsDeleteView(LoginRequiredMixin, generic.DeleteView):
+class ProductsDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:products')
+
+    # permission_required = 'catalog.delete_product'
+
+    def test_func(self):
+        return self.request.user.is_superuser  # жесткие требования на удаление ( только суперюзер может удалить)
 
 
 class ContactCreateView(generic.CreateView):
