@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="col-12">
-        {% if perms.catalog.add_product %}
+        {% if user.is_authenticated and not request.user.is_staff %}
             <a href="{% url 'catalog:products_create' %}" class="btn btn-primary m-2">Добавить продукт</a>
         {% endif %}
     </div>

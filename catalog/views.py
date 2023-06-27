@@ -45,11 +45,11 @@ class ProductsDetailView(generic.DetailView):
         return context_data
 
 
-class ProductsCreatView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+class ProductsCreatView(LoginRequiredMixin,  generic.CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
-    permission_required = 'catalog.add_product'
+    # permission_required = 'catalog.add_product'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -73,11 +73,11 @@ class ProductsCreatView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cre
         return super().form_valid(form)
 
 
-class ProductsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
-    permission_required = 'catalog.change_product'
+    # permission_required = 'catalog.change_product'
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
