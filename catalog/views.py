@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.urls import reverse_lazy
@@ -40,16 +41,38 @@ class ProductsDetailView(generic.DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        # context_data['title'] = context_data['object']
+        context_data = super().get_context_data(**kwargs)  # Получаем контекст данных из родительского класса
+        cache_key = f'product_{self.object.pk}'  # Кешируем данные на 5 минут
+        # Получаем закешированные данные
+        cached_data = cache.get(cache_key)
+        # Если закешированных данных нет, то создаем их и кешируем
+        if cached_data is None:
+            # Если кеш не был подключен, то просто обращаемся к БД
+            if not cache:
+                cached_data = {
+                    'description': self.object.description,  # Описание продукта
+                    'price': self.object.price,  # Цена продукта
+                }
+            else:
+                cached_data = {
+                    # 'name': self.object.name,  # Название продукта
+                    # 'image': self.object.image.url,  # URL изображения продукта
+                    'description': self.object.description,  # Описание продукта
+                    'price': self.object.price,  # Цена продукта
+                }
+            cache.set(cache_key, cached_data, 300)  # Кешируем данные на 5 минут
+        # Обновляем контекст данных
+        context_data.update(cached_data)
+        # Возвращаем контекст данных
         return context_data
 
 
-class ProductsCreatView(LoginRequiredMixin,  generic.CreateView):
+class ProductsCreatView(LoginRequiredMixin, generic.CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
-    # permission_required = 'catalog.add_product'
+
+    # permission_required = 'catalog.add_product'З
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -77,6 +100,7 @@ class ProductsUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:products')
+
     # permission_required = 'catalog.change_product'
 
     def get_object(self, queryset=None):
