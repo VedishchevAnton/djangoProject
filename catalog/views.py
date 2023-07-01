@@ -9,7 +9,7 @@ from django.utils.text import slugify
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Category, Product, Contacts, Blogs, Version
-from catalog.serives import get_cached_product_data
+from catalog.services import get_cached_product_data
 
 
 class CategoryListView(generic.ListView):

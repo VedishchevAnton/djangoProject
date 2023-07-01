@@ -13,6 +13,7 @@ pillow = "^9.5.0"
 ipython = "^8.13.2"
 contact = "^1.0.5"
 redis = "^4.6.0"
+python-dotenv = "^1.0.0"
 
 
 [build-system]

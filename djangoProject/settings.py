@@ -11,9 +11,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -77,9 +80,9 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_db',
-        'USER': 'postgres',
-        'PASSWORD': '231287',
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD'),
         'HOST': '127.0.0.1',
         'PORT': 5432,
     }
@@ -142,8 +145,8 @@ SITE_ADRES = "127.0.0.1:8000"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "vedanton@mail.ru"
-EMAIL_HOST_PASSWORD = 'hci6s06uA91awsDkvzm0'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
@@ -151,12 +154,14 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_URL = 'users:login'
 
-CACHE_ENABLE = True  # если True значит работаем на продакшн, если False значит локально и кешировать ничего не нужно
+CACHE_ENABLE = os.getenv(
+    'CACHE_ENABLE') == 'True'  # если True значит работаем на продакшн, если False значит локально и кешировать
+# ничего не нужно
 
 if CACHE_ENABLE:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379",
+            "LOCATION": os.getenv('CACHES_LOCATION'),
         }
     }
